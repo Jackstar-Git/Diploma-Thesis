@@ -1,4 +1,4 @@
-# Book Matcher — Content-Based Recommendation System
+# Book Matcher — Diploma Thesis
 
 ---
 
