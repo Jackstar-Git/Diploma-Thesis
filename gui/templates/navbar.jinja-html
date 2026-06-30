@@ -1,0 +1,16 @@
+<!-- Navbar -->
+    <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='navbar.css') }}">
+        
+    </head>
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="{{ url_for('static', filename='Logo.png') }}" alt="Logo">
+        </div>
+        <ul class="navbar-links">
+            <li><a href="{{ url_for('index') }}">Startseite</a></li>
+            <li><a href="{{ url_for('settings') }}">Einstellungen</a></li>
+            <li><a href="{{ url_for('about') }}">Über das Projekt</a></li>
+            <li><a href="{{ url_for('info') }}">Informationen</a></li>
+        </ul>
+    </nav>

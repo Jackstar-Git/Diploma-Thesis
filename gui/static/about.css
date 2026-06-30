@@ -1,0 +1,30 @@
+@import url(style.css);
+
+.project-info {
+    max-width: 800px;
+    margin: 2rem auto;
+    line-height: 1.6;
+}
+.project-info h1, 
+.project-info h2 {
+    margin: 1.5rem 0 0.8rem;
+}
+.project-info p {
+    margin: 0.6rem 0;
+}
+.project-info ul {
+    margin: 0.6rem 0 1.2rem 1.4rem;
+}
+.highlight {
+    background: var(--secondary-color, #f0f0f0);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+}
+blockquote {
+    border-left: 4px solid var(--font-color);
+    padding-left: 1rem;
+    color: #666;
+    margin: 1rem 0;
+    font-style: italic;
+}

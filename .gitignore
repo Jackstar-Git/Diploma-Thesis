@@ -1,0 +1,23 @@
+# Ignore Python virtual environments
+venv/
+.env/
+
+# Ignore Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+output/
+
+# Ignore models folder
+model/
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+conf.json
+
+# Ignore IDE specific files
+.vscode/
+.idea/

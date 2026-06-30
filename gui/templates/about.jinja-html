@@ -1,0 +1,94 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Buch Matcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+</head>
+<body>
+    {% include "navbar.jinja-html" %}
+    <div class="container">
+        <section class="project-info">
+            <h1>Buch Matcher – Diplomarbeit 2025/2026</h1>
+
+            <p>
+                Dieses Projekt entstand im Rahmen einer 
+                <strong>Diplomarbeit</strong> im Schuljahr 2025/2026.
+            </p>
+
+            <blockquote>
+                <em>Titel der Arbeit:</em><br>
+                <strong>„Optimierung des Online-Shopping-Erlebnisses: 
+                Der Einfluss von KI-basierten Features auf Nutzerverhalten 
+                und Kaufentscheidungen am Beispiel Thalia“</strong>
+            </blockquote>
+
+            <h2>Projektidee</h2>
+            <p>
+                Online-Shopping ist längst ein fester Bestandteil unseres Alltags. 
+                Dabei spielt nicht nur die Auswahl an Produkten eine Rolle, sondern 
+                auch die Art und Weise, wie diese empfohlen werden.
+            </p>
+            <p>
+                Dieses Projekt untersucht den Einfluss von 
+                <strong>KI-basierten Features</strong> auf das Kaufverhalten. 
+                Im Mittelpunkt steht ein Prototyp für 
+                <strong>inhaltsbasiertes Filtern</strong>, mit dem Bücher nach 
+                ihren inhaltlichen Eigenschaften empfohlen werden können.
+            </p>
+
+            <h2>Ziele des Prototyps</h2>
+            <p>
+                Der Prototyp soll die <em>Funktionsweise von Content-Based 
+                Filtering</em> demonstrieren. Gleichzeitig wird untersucht, 
+                welchen Einfluss ein solches Feature auf das 
+                <strong>Nutzerverhalten</strong> und die 
+                <strong>Kaufentscheidungen</strong> hat.
+            </p>
+
+            <h2>Datenbasis</h2>
+            <p>
+                Für die Demonstration wird ein frei verfügbarer Datensatz mit den 
+                <strong>50.000 beliebtesten Büchern weltweit</strong> genutzt. 
+                Das System ist jedoch so konzipiert, dass es auch mit 
+                <em>anderen Datensätzen</em> betrieben werden kann, 
+                beispielsweise mit einem spezifischen Shop-Sortiment.
+            </p>
+            <p>
+                Weitere technische Informationen sind später unter 
+                <span class="highlight">/info</span> verfügbar.
+            </p>
+
+            <h2>Lizenz und Nutzung</h2>
+            <p>
+                Das Projekt steht unter der <strong>MIT-Lizenz</strong>.  
+                Diese erlaubt:
+            </p>
+            <ul>
+                <li>freie Nutzung des Codes für private und kommerzielle Zwecke,</li>
+                <li>Veränderung, Erweiterung und Weitergabe des Projekts,</li>
+                <li>solange ein Hinweis auf die Lizenz und der Autor 
+                    <em>Jackstar-Git</em> genannt werden.</li>
+            </ul>
+            <p>
+                GitHub-Repository: <em>wird demnächst veröffentlicht</em>
+            </p>
+
+            <h2>Sonstiges</h2>
+            <ul>
+                <li>Der Prototyp ist ein <strong>Demonstrator</strong> – 
+                    nicht für produktiven Einsatz gedacht.</li>
+                <li>Er dient ausschließlich 
+                    <strong>wissenschaftlichen und prototypischen Zwecken</strong>.
+                </li>
+                <li>Feedback, Vorschläge und Beiträge sind ausdrücklich erwünscht.</li>
+                <li>Das Projekt kann als Basis für weitere 
+                    <em>Forschungsarbeiten</em> oder praxisnahe 
+                    Weiterentwicklungen dienen.</li>
+            </ul>
+        </section>
+    </div>
+</body>
+</html>

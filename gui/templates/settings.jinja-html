@@ -1,0 +1,39 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Book Matcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}">
+    <script src="{{ url_for('static', filename='home.js') }}"></script>
+</head>
+<body>
+    {% include "navbar.jinja-html" %}
+    <div class="container">
+        <h1>Gewichtungen anpassen</h1>
+        <form method="post" class="book-form">
+            <label for="genres_weight">Genre-Gewichtung:</label>
+            <input type="number" id="genres_weight" name="genres_weight" step="0.01" required value="{{ weights.get('genre')*100 }}"><br>
+
+            <label for="story_elements_weight">Handlungselemente-Gewichtung:</label>
+            <input type="number" id="story_elements_weight" name="story_elements_weight" step="0.01" required value="{{ weights.get('story_element')*100 }}"><br>
+
+            <label for="author_weight">Autor-Gewichtung:</label>
+            <input type="number" id="author_weight" name="author_weight" step="0.01" required value="{{ weights.get('author')*100 }}"><br>   
+
+            <label for="description_weight">Beschreibung-Gewichtung:</label>
+            <input type="number" id="description_weight" name="description_weight" step="0.01" required value="{{ weights.get('description')*100 }}"><br>
+
+            <label for="page_length_weight">Seitenanzahl-Gewichtung:</label>
+            <input type="number" id="page_length_weight" name="page_length_weight" step="0.01" required value="{{ weights.get('page_length')*100 }}"><br>
+
+            {% if message %}
+                <span style="color: red;">{{ message }}</span><br>
+            {% endif %}
+
+            <input type="submit" value="Speichern">
+        </form>
+    </div>
+</body>
+</html>

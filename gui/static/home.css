@@ -1,0 +1,119 @@
+@import url(style.css);
+
+/* Container */
+.container {
+    width: 90%;
+    margin: 2em auto;
+    background: #fff;
+    padding: 2em 2.5em 2em 2.5em;
+    border-radius: 10px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+}
+
+/* Form styles */
+.book-form label {
+    display: block;
+    margin-top: 1.2em;
+    font-weight: 600;
+    color: #222;
+}
+.book-form input[type="text"],
+.book-form textarea {
+    width: 100%;
+    padding: 0.6em;
+    margin-top: 0.4em;
+    border: 1px solid #b2dfdb;
+    border-radius: 5px;
+    font-size: 1em;
+    background: #f8fefc;
+    transition: border 0.2s;
+}
+.book-form input[type="text"]:focus,
+.book-form textarea:focus {
+    border: 1.5px solid var(--primary-color);
+    outline: none;
+}
+.book-form input[type="submit"] {
+    margin-top: 1.5em;
+    padding: 0.7em 2em;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.book-form input[type="submit"]:hover {
+    background-color: #27ae38;
+}
+
+/* Results table */
+.results-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin-top: 0.3em;
+    background: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(44,204,64,0.05);
+}
+
+/* Set fixed widths for table columns */
+.results-table td:nth-child(1),th:nth-child(1) { width: 2%; }
+.results-table td:nth-child(2),th:nth-child(2) { width: 20%; }
+.results-table td:nth-child(3),th:nth-child(3) { width: 15%; }
+.results-table td:nth-child(4),th:nth-child(4) { width: 53%; }
+.results-table td:nth-child(5),th:nth-child(5) { width: 10%; }
+
+.results-table th, .results-table td {
+    padding: 0.9em 0.7em;
+    text-align: left;
+    border: 1px solid #222 ;
+}
+
+.results-table th {
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+}
+.results-table tr:nth-child(even) {
+    background: color(from var(--primary-color) srgb r g b / 0.25);
+}
+.results-table tr:hover {
+    background: color(from var(--primary-color) srgb r g b / 0.55);
+}
+.results-table td {
+    vertical-align: center;
+    font-size: 0.98em;
+    color: #222;
+    height: 50px;
+    transition: height 0.3s;
+}
+
+
+.more-button {
+    cursor: pointer;
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: bold;
+    user-select: none;
+    text-align: center;
+    border-radius: 50%;
+    margin-top: 0.3em;
+    margin-inline: auto;
+    font-size: 1.2em;
+    width: 1.2em;
+    line-height: 1.2em;
+    transition: rotate 0.3s;
+}
+
+.more-button.enabled {
+    rotate: 180deg;
+}
+
+#dots {
+    padding: 0;
+    margin: 0;
+}

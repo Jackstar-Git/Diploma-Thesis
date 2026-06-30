@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>similarity_utils.py & embedding_utils.py — Technical Documentation</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+    <style>
+      /* --- GitHub-like code highlighting (light mode) --- */
+      pre {
+        background: #f6f8fa;
+        border-radius: 6px;
+        padding: 16px;
+        overflow: auto;
+        font-size: 0.95rem;
+        line-height: 1.45;
+        border: 1px solid #d0d7de;
+        margin: 1em 0;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        color: #24292f;
+        background: none;
+        font-size: 1em;
+      }
+      .hl-keyword { color: #cf222e; font-weight: 600; }
+      .hl-func { color: #8250df; }
+      .hl-string { color: #0a3069; }
+      .hl-number { color: #0550ae; }
+      .hl-comment { color: #6e7781; font-style: italic; }
+      .hl-builtin { color: #953800; }
+      .hl-type { color: #116329; }
+      .hl-operator { color: #d1242f; }
+      .hl-attr { color: #8250df; }
+      .hl-punctuation { color: #24292f; }
+      .hl-decorator { color: #8250df; }
+      .hl-constant { color: #0550ae; }
+      .hl-special { color: #cf222e; }
+
+      /* Markdown-like styles (light mode) */
+      .doc {
+        max-width: 900px;
+        margin: 2rem auto;
+        padding: 2rem 2.5rem;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 16px #0001;
+        border: 1px solid #d0d7de;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        font-weight: 700;
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+        line-height: 1.2;
+      }
+      h1 { font-size: 2.1rem; color: #0969da; border-bottom: 1px solid #d0d7de; padding-bottom: 0.3em;}
+      h2 { font-size: 1.5rem; color: #2188ff; border-bottom: 1px solid #eaecef; padding-bottom: 0.2em;}
+      h3 { font-size: 1.2rem; color: #8250df; }
+      p, ul, ol { margin: 0.7em 0; }
+      ul, ol { padding-left: 2em; }
+      li { margin-bottom: 0.3em; }
+      hr { border: none; border-top: 1px solid #d0d7de; margin: 2em 0; }
+      blockquote {
+        border-left: 4px solid #d0d7de;
+        color: #57606a;
+        margin: 1em 0;
+        padding: 0.5em 1em;
+        background: #f6f8fa;
+      }
+      table {
+        border-collapse: collapse;
+        margin: 1em 0;
+        width: 100%;
+      }
+      th, td {
+        border: 1px solid #d0d7de;
+        padding: 0.5em 1em;
+      }
+      th {
+        background: #f6f8fa;
+        color: #0969da;
+      }
+      /* Inline code */
+      p code, li code, h1 code, h2 code, h3 code, h4 code {
+        background: #f6f8fa;
+        color: #24292f;
+        border-radius: 4px;
+        padding: 0.1em 0.4em;
+        font-size: 0.98em;
+      }
+      /* Math block */
+      .math-block {
+        display: block;
+        background: #f6f8fa;
+        color: #24292f;
+        border-radius: 4px;
+        padding: 0.5em 1em;
+        margin: 1em 0;
+        font-family: 'Consolas', monospace;
+        font-size: 1.05em;
+      }
+    </style>
+</head>
+<body>
+  {% include "navbar.jinja-html" %}
+  <div class="doc">
+
+    <h1><code>embedding_utils.py</code> — Technical Function Explanations</h1>
+
+    <h2>extract_embeddings</h2>
+    <p>Encodes a string or list of strings into high-dimensional vector embeddings using a pre-trained SentenceTransformer model.</p>
+    <pre><code class="language-python">def extract_embeddings(text: str | list[str]) -> np.ndarray:
+    return model.encode(text, normalize_embeddings=True, show_progress_bar=True, batch_size=1024)
+</code></pre>
+    <ul>
+      <li><b>Mathematical aspect:</b><br>
+        Each input string is mapped to a vector in ℝⁿ (n = embedding dimension, e.g., 384 or 768).<br>
+        If <code>normalize_embeddings=True</code>, each vector is L2-normalized:
+        <div class="math-block">$$ \mathbf{v}_{norm} = \frac{\mathbf{v}}{||\mathbf{v}||_2} $$</div>
+      </li>
+      <li><b>Batching:</b> Processes up to 1024 texts at once for efficiency.</li>
+      <li><b>Output:</b> Returns a numpy array of shape (num_texts, embedding_dim).</li>
+    </ul>
+
+    <hr>
+
+    <h2>get_cached_embeddings</h2>
+    <p>Loads or generates and caches embeddings for book descriptions, genres, and story elements.</p>
+    <pre><code class="language-python">def get_cached_embeddings(book_df: pd.DataFrame, embedding_cache_file: str, additional_cache_file: str) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+    try:
+        with open(embedding_cache_file, "rb") as f:
+            book_embeddings: np.ndarray = pickle.load(f)
+    except (FileNotFoundError, EOFError):
+        book_embeddings = extract_embeddings(book_df["description"].tolist())
+        with open(embedding_cache_file, "wb") as f:
+            pickle.dump(book_embeddings, f)
+
+    try:
+        with open(additional_cache_file, "rb") as f:
+            genre_embeddings, story_embeddings = pickle.load(f)
+    except (FileNotFoundError, EOFError):
+        genre_embeddings = extract_embeddings(book_df["genres"].tolist())
+        story_embeddings = extract_embeddings(book_df["story_elements"].tolist())
+        with open(additional_cache_file, "wb") as f:
+            pickle.dump((genre_embeddings, story_embeddings), f)
+
+    return book_embeddings, genre_embeddings, story_embeddings
+</code></pre>
+    <ul>
+      <li><b>Purpose:</b> Avoids recomputing embeddings by saving them to disk (serialization with pickle).</li>
+      <li><b>If</b> cache files are missing or empty, computes embeddings and saves them.</li>
+      <li><b>Returns:</b> Tuple of numpy arrays for descriptions, genres, and story elements.</li>
+    </ul>
+
+    <hr>
+
+    <h2>create_user_embeddings</h2>
+    <p>Creates embeddings for user input fields, handling empty strings by returning zero vectors of the correct shape.</p>
+    <pre><code class="language-python">def create_user_embeddings(user_input: tuple[int | None, str, str, str, str]) -> tuple[int | None, str, np.ndarray, np.ndarray, np.ndarray, tuple]:
+    pages, author_input, genres_input, story_elements_input, description_input = user_input
+
+    # Embed user input, with deterministic handling for empty strings
+    if description_input.strip() == "":
+        print("No description provided, using default embedding.")
+        user_description_embedding: np.ndarray = np.zeros((1, model.get_sentence_embedding_dimension()), dtype=np.float32)
+    else:
+        user_description_embedding: np.ndarray = extract_embeddings(description_input).reshape(1, -1)
+
+    if genres_input.strip() == "":
+        print("No genres provided, using default embedding.")
+        user_genre_embedding: np.ndarray = np.zeros((1, model.get_sentence_embedding_dimension()), dtype=np.float32)
+    else:
+        user_genre_embedding: np.ndarray = extract_embeddings(genres_input).reshape(1, -1)
+
+    if story_elements_input.strip() == "":
+        print("No story elements provided, using default embedding.")
+        user_story_embedding: np.ndarray = np.zeros((1, model.get_sentence_embedding_dimension()), dtype=np.float32)
+    else:
+        user_story_embedding: np.ndarray = extract_embeddings(story_elements_input).reshape(1, -1)
+
+    return (pages, author_input, user_description_embedding, user_genre_embedding, user_story_embedding)
+</code></pre>
+    <ul>
+      <li><b>Technical note:</b>
+        Each user input string is embedded and reshaped to (1, embedding_dim) for compatibility with pairwise similarity functions.<br>
+        If a field is empty, a zero vector of the correct shape is used as a placeholder.
+      </li>
+      <li><b>Returns:</b> Tuple containing the original page count, author input, and the three embeddings.</li>
+    </ul>
+
+    <hr>
+
+    <h1><code>similarity_utils.py</code> — Technical Function Explanations</h1>
+
+    <h2>calculate_similarity</h2>
+    <p>Calculates similarity scores between user preferences and books using multiple features and mathematical techniques.</p>
+    <pre><code class="language-python">def calculate_similarity(user_embeddings, book_embeddings, genre_embeddings, story_embeddings, book_df):
+    pages, author_input, user_description_embedding, user_genre_embedding, user_story_embedding = user_embeddings
+
+    if not np.allclose(user_description_embedding, np.zeros((1, user_description_embedding.shape[1]))):
+        description_similarity = np.clip(cosine_similarity(user_description_embedding, book_embeddings).flatten(), 0,1)
+    else:
+        description_similarity = np.clip(np.ones(len(book_df)), 0,1)
+
+    # Page length similarity
+    if pages:
+        abs_diff = np.abs(book_df["pages"] - pages)
+        norm_diff = abs_diff / pages * 2
+        clipped = np.clip(norm_diff, 0, 1)
+        page_length_similarity = np.clip(1 - clipped, 0,1)
+    else:
+        page_length_similarity = np.clip(np.ones(len(book_df)), 0,1)
+
+    # Author similarity
+    if author_input:
+        author_similarity = np.clip(np.array([fuzz.partial_ratio(author_input, author) / 100 for author in book_df["author"]]), 0,1)
+    else:
+        author_similarity = np.clip(np.ones(len(book_df)), 0,1)
+
+    # Genre similarity
+    if not np.allclose(user_genre_embedding, np.zeros((1, user_genre_embedding.shape[1]))):
+        genre_similarity = np.clip(cosine_similarity(user_genre_embedding, genre_embeddings).flatten(), 0,1)
+    else:
+        genre_similarity = np.clip(np.ones(len(book_df)), 0,1)
+
+    # Story element similarity
+    if not np.allclose(user_story_embedding, np.zeros((1, user_story_embedding.shape[1]))):
+        story_element_similarity = np.clip(cosine_similarity(user_story_embedding, story_embeddings).flatten(), 0,1)
+    else:
+        story_element_similarity = np.clip(np.ones(len(book_df)), 0,1)
+
+    weights: dict = {
+        "description": 0.60,
+        "author": 0.20,
+        "genre": 0.15,
+        "story_element": 0.00,
+        "page_length": 0.05
+    }
+
+    # Combine similarities with weights
+    combined_similarity = (
+        (description_similarity * weights["description"]) +
+        (author_similarity * weights["author"]) +
+        (genre_similarity * weights["genre"]) +
+        (story_element_similarity * weights["story_element"]) +
+        (page_length_similarity * weights["page_length"])
+    )
+
+    return (
+        combined_similarity,
+        description_similarity,
+        author_similarity,
+        genre_similarity,
+        story_element_similarity,
+        page_length_similarity
+    )
+</code></pre>
+
+    <h3>Description, Genre, and Story Element Similarity</h3>
+    <p><b>Cosine Similarity:</b><br>
+      For two vectors <code>𝐚</code> and <code>𝐛</code>,<br>
+      <div class="math-block">$$ \text{cosine\_sim}(\mathbf{a}, \mathbf{b}) = \frac{\mathbf{a} \cdot \mathbf{b}}{||\mathbf{a}|| \cdot ||\mathbf{b}||} $$</div>
+      Since embeddings are normalized, this is simply their dot product.<br>
+      Values range from -1 (opposite) to 1 (identical); here, all values are clipped to [0, 1] for scoring.
+    </p>
+
+    <h3>Author Similarity</h3>
+    <p><b>Fuzzy String Matching:</b><br>
+      Uses <code>fuzz.partial_ratio</code> to compare user input with each book's author (returns a score between 0 and 100, divided by 100 for normalization).<br>
+      <b>Purpose:</b> Handles typos and partial matches, not just exact string equality.
+    </p>
+
+    <h3>Page Length Similarity</h3>
+    <p><b>Mathematical formula:</b><br>
+      <div class="math-block">$$ \text{abs\_diff} = |\text{book\_pages} - \text{user\_pages}| $$<br>
+      $$ \text{norm\_diff} = \frac{\text{abs\_diff}}{\text{user\_pages}} \times 2 $$<br>
+      $$ \text{clipped} = \min(\text{norm\_diff}, 1) $$<br>
+      $$ \text{page\_length\_similarity} = 1 - \text{clipped} $$</div>
+      <b>Interpretation:</b>
+      The closer the book's page count to the user's preference, the higher the similarity (max 1).
+    </p>
+
+    <h3>Handling Missing User Input</h3>
+    <ul>
+      <li>If a user input field (description, genre, or story element) is empty, a zero vector is used and the corresponding similarity is set to 1 for all books.</li>
+      <li>If the author input is empty, author similarity is set to 1 for all books.</li>
+      <li>If the page count is missing, page length similarity is set to 1 for all books.</li>
+    </ul>
+
+    <h3>Combined Similarity</h3>
+    <p><b>Weighted sum:</b>
+      Each feature's similarity is multiplied by a weight (sum to 1.0), reflecting its importance in the final score.
+    </p>
+    <ul>
+      <li>Description: 0.60</li>
+      <li>Author: 0.20</li>
+      <li>Genre: 0.15</li>
+      <li>Story element: 0.00</li>
+      <li>Page length: 0.05</li>
+    </ul>
+
+    <h3>Output</h3>
+    <p>Returns a tuple of arrays:<br>
+      (combined_similarity, description_similarity, author_similarity, genre_similarity, story_element_similarity, page_length_similarity)
+    </p>
+  </div>
+
+</body>
+</html>
+
+

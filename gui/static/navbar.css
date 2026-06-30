@@ -1,0 +1,42 @@
+@import url(style.css);
+
+/* Navbar styles */
+.navbar {
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    padding: 0 2em;
+    height: 60px;
+}
+
+.navbar-logo{
+    width: 20%;
+    height: 80%;
+
+}
+.navbar-logo img {
+    height: 100%;
+    margin-right: 1.5em;
+}
+.navbar-links {
+    list-style: none;
+    display: flex;
+    gap: 2em;
+    margin: 0;
+    padding: 0;
+    justify-content: space-evenly;
+    width: 80%;;
+}
+.navbar-links li {
+    display: inline;
+}
+.navbar-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.4em;
+    transition: text-decoration 0.2s;
+}
+.navbar-links a:hover {
+    text-decoration: underline;
+}
