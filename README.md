@@ -72,7 +72,7 @@ $$S = w_{desc} \cdot S_{desc} + w_{author} \cdot S_{author} + w_{genre} \cdot S_
 ## 6. Requirements (System Requirements & Libraries)
 
 * **Python:** 3.12+
-* **Dependencies:** `sentence-transformers`, `pandas`, `numpy`, `scikit-learn`, `fuzzywuzzy`, `flask`.
+* **Dependencies:** `sentence-transformers`, `pandas`, `numpy`, `scikit-learn`, `rapidfuzz`, `flask`.
 
 > [!WARNING]
 > The `model/` folder is empty in this repo due to size constraints. The model will auto-download (approx. 90MB) on first execution. Ensure at least 4GB of RAM is available.
